@@ -1,7 +1,9 @@
 import time
 import os
 
-hours = 0.0167
+## config ##
+hours = 12
+############
 
 # every x hours, print the current time
 while True:
