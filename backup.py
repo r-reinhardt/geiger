@@ -9,5 +9,5 @@ hours = 12
 while True:
     time.sleep(hours * 3600)
     if os.stat('/proc/uptime').st_mtime > hours * 3600:
-        os.system("cp /usr/local/ramdisk/index.log /home/pi/geigerzaehler/")
-    
+        if debug:
+        
