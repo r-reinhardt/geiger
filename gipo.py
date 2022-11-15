@@ -1,68 +1,73 @@
 #!/usr/bin/env python
-#coding: utf8 
+#coding: utf8
 import time
 import RPi.GPIO as GPIO
 import os
 from datetime import datetime
 import threading
 
-## config ##
-minutes = 5 # wie lange soll gemessen werden?
-
+#### config ####
+minutes = 5       # wie lange soll gemessen werden?
+debug = False     # falls 'True' wird ein Ton abgespielt & Konsolen Logs werden aktiviert
+bouncetime = 150  # wie hoch soll die bounce time sein?
+pin = 13          # welcher gpio pin soll verwendet werden?
+faktor = 0.02     # mit welchem Faktor soll mikrosievert errechnet werden?
+################
 
 # Zählweise der Pins festlegen
 GPIO.setmode(GPIO.BOARD)
 
-# Pin 11 (GPIO 27) als Eingang festlegen
-GPIO.setup(13, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
+# Pin 13 (GPIO 27) als Eingang festlegen
+GPIO.setup(pin, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
 
-hz = 440
-
+# Funktion, um im Log einen Eintrag hinzu zu fügen
 def addLog(time, value):
-        
     with open("index.log", "r") as f:
         logString = f.read()
         with open("index.log", "w") as f:
             logString = logString + "\n" + str(time) + " " + str(value)
             f.write(logString)
 
-# Ereignis-Funktion für Eingang HIGH
 
-i = 1
-faktor = 0.02
 
+# Ton 'geiger.wav' in neuem Thread (damit async) abspielen
 def playSound():
     threading.Thread(target=os.system, args=('aplay -q geiger.wav',), daemon=True).start()
 
-def doIfHigh(pin):
+i = 1
+# Wenn pin 13 auf einen puls erhält:
+def onInterrupt(pin):
     global i
-    global hz
     global timeout
+    global debug
 
-    # Geräusch abspielen
-    playSound()
+    # falls, debug aktiviert ist, Geräusch abspielen
+    if debug:
+        playSound()
     
     timestamp = int(time.time())
 
     if i == 1:
-        timeout = time.time() + 60 * minutes   # 5 minuten
+        timeout = time.time() + 60 * minutes
 
     if time.time() > timeout: 
-        print("Impuls gemessen: " + str(i))
+        if debug:
+            print("Impuls gemessen: " + str(i))
         sievert = str(round((i * faktor) / minutes, 3))
         addLog(timestamp, sievert)
-        print("\nEs wurden in den letzten " + str(minutes) + " Minuten " + str(i) + " Impulse gemessen. (" + sievert + " uSv/h)\n")
+        if debug:
+            print("\nEs wurden in den letzten " + str(minutes) + " Minuten " + str(i) + " Impulse gemessen. (" + sievert + " uSv/h)\n")
         i = 1;
     else:
-        print("Impuls gemessen: " + str(i))
+        if debug:
+            print("Impuls gemessen: " + str(i))
         i = i + 1
         
 # Ereignis deklarieren
-pin = 13
-GPIO.add_event_detect(pin, GPIO.RISING, callback = doIfHigh, bouncetime = 150)
+GPIO.add_event_detect(pin, GPIO.RISING, callback = onInterrupt, bouncetime = bouncetime)
 
 
 while True:
     time.sleep(1)
     
-# TODO: nächster Schritt Daten nach einem Jahr erneuern. 
+# TODO: nach einem Jahr alte logs z.B. überschreiben
