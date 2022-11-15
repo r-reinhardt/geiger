@@ -3,7 +3,6 @@
 import time
 import RPi.GPIO as GPIO
 import os
-import numpy as np
 from datetime import datetime
 import threading
 
