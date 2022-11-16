@@ -5,16 +5,10 @@ let timestamp = document.querySelector('#timestamp > span');
 let updateInterval = 1; // in minuten
 
 async function updatePage() {
-	console.log('updatePage ran!');
+	const log = await fetch('http://localhost:26662/api/latest').then((res) => res.json());
 
-	const log = await fetch('./index.log').then((res) => res.text());
-
-	let length = log.split('\n').length;
-
-	let lastLine = log.split('\n')[length - 1];
-
-	let lastValue = lastLine.split(' ')[1];
-	let lastTime = lastLine.split(' ')[0];
+	let lastValue = log.value;
+	let lastTime = log.timestamp;
 
 	counter.innerHTML = lastValue;
 
