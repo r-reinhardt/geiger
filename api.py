@@ -9,6 +9,8 @@ port = 26662
 app = Flask(__name__)
 CORS(app)
 
+errorMessage = '<p style="font-family: sans-serif; font-size: 15pt;"><b>error:</b> invalid input <br><b>correct usage:</b> <kbd>/all</kbd>, <kbd>/latest</kbd>, <kbd>/&lt;unix timestamp&gt;<kbd> eg.: <kbd>./api/1667985999</kbd></p>'
+
 @app.route('/api/<input>', methods=['GET'])
 def api(input):
     with open('./index.log', 'r') as f:
@@ -37,8 +39,14 @@ def api(input):
                     closest = min(log, key=lambda x: abs(int(x['timestamp']) - int(input) + 1))
                     return jsonify(closest)
 
-        # error anzeigen, falls input nicht erkannt wurde
-        return ('<p style="font-family: sans-serif; font-size: 15pt;"><b>error:</b> invalid input <br><b>correct usage:</b> <kbd>/all</kbd>, <kbd>/latest</kbd>, <kbd>/&lt;unix timestamp&gt;<kbd> eg.: <kbd>./api/1667985999</kbd></p>', 500)
+        else:
+            return (errorMessage, 500)
+
+@app.route('/api/', methods=['GET'])
+def empty():
+    return (errorMessage, 500)
+
+
 
 if __name__ == '__main__':
     serve(app, host="0.0.0.0", port=port)
