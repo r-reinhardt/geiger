@@ -5,7 +5,7 @@ let timestamp = document.querySelector('#timestamp > span');
 let updateInterval = 1; // in minuten
 
 async function updatePage() {
-	const log = await fetch('http://localhost:26662/api/latest').then((res) => res.json());
+	const log = await fetch('http://172.16.14.104:26662/api/latest').then((res) => res.json());
 
 	let lastValue = log.value;
 	let lastTime = log.timestamp;
