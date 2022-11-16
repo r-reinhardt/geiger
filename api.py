@@ -2,6 +2,7 @@
 #coding: utf8
 from flask import Flask, jsonify
 from flask_cors import CORS
+from waitress import serve
 
 port = 26662
 
@@ -40,4 +41,4 @@ def api(input):
         return ('<p style="font-family: sans-serif; font-size: 15pt;"><b>error:</b> invalid input <br><b>correct usage:</b> <kbd>/all</kbd>, <kbd>/latest</kbd>, <kbd>/&lt;unix timestamp&gt;<kbd> eg.: <kbd>./api/1667985999</kbd></p>', 500)
 
 if __name__ == '__main__':
-        app.run(host='0.0.0.0', port=port)
+    serve(app, host="0.0.0.0", port=port)
