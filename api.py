@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #coding: utf8
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify
 from flask_cors import CORS
 
 port = 26662
