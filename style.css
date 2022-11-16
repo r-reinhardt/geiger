@@ -47,7 +47,7 @@ body {
 }
 
 #counter::after {
-	content: 'μSv/h';
+	content: '\00B5Sv/h';
 	display: block;
 	font-size: 40pt;
 	position: relative;
