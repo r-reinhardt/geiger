@@ -6,8 +6,8 @@ import os
 from datetime import datetime
 import threading
 
-#### config ####
-minutes = 5       # wie lange soll gemessen werden?
+# #### config ####
+minutes = 30      # wie lange soll gemessen werden?
 debug = False     # falls 'True' wird ein Ton abgespielt & Konsolen Logs werden aktiviert
 bouncetime = 150  # wie hoch soll die bounce time sein?
 pin = 13          # welcher gpio pin soll verwendet werden?
