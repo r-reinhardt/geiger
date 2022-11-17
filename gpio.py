@@ -28,8 +28,6 @@ def addLog(time, value):
             logString = logString + "\n" + str(time) + " " + str(value)
             f.write(logString)
 
-
-
 # Ton 'geiger.wav' in neuem Thread (damit async) abspielen
 def playSound():
     threading.Thread(target=os.system, args=('aplay -q geiger.wav',), daemon=True).start()
@@ -38,36 +36,34 @@ i = 1
 # Wenn pin 13 auf einen puls erhält:
 def onInterrupt(pin):
     global i
-    global timeout
     global debug
 
     # falls, debug aktiviert ist, Geräusch abspielen
     if debug:
         playSound()
+        print('Impuls gemessen: ' + str(i))
+
+
+    i += 1
     
+def timer():
+    global i
+    global debug
+    time.sleep(minutes * 60)
+    sievert = str(round((i * faktor) / minutes, 3))
     timestamp = int(time.time())
+    addLog(timestamp, sievert)
+    if debug:
+        print("\nEs wurden in den letzten " + str(minutes) + " Minuten " + str(i) + " Impulse gemessen. (" + sievert + " uSv/h)\n")
+    i = 1;
 
-    if i == 1:
-        timeout = time.time() + 60 * minutes
+# timer() funktion in neuem thread ausführen
+threading.Thread(target=timer, daemon=True).start()   
 
-    if time.time() > timeout: 
-        if debug:
-            print("Impuls gemessen: " + str(i))
-        sievert = str(round((i * faktor) / minutes, 3))
-        addLog(timestamp, sievert)
-        if debug:
-            print("\nEs wurden in den letzten " + str(minutes) + " Minuten " + str(i) + " Impulse gemessen. (" + sievert + " uSv/h)\n")
-        i = 1;
-    else:
-        if debug:
-            print("Impuls gemessen: " + str(i))
-        i = i + 1
-        
 # Ereignis deklarieren
 GPIO.add_event_detect(pin, GPIO.RISING, callback = onInterrupt, bouncetime = bouncetime)
 
+# TODO: nach einem Jahr alte logs z.B. überschreiben
 
 while True:
     time.sleep(1)
-    
-# TODO: nach einem Jahr alte logs z.B. überschreiben
