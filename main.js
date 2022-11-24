@@ -12,8 +12,8 @@ async function updatePage() {
 
 	counter.innerHTML = lastValue;
 
-	let red = lastValue * 255 * 3.2;
 	let green = 255 - red;
+  let red = lastValue * 255 * 0.5;
 
 	wrapper.style.backgroundColor = `rgb(${red}, ${green}, 0)`;
 
