@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <title>SINC-Geiger API Wiki</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        font-size: 62.5%;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        padding: 5rem 6rem;
+        height: 100vh;
+        overflow: hidden;
+        width: 100%;
+        font-size: 1.4rem;
+        color: #2a2f45;
+      }
+
+      section {
+        border-bottom: 1px solid#e3e8ee;
+        margin-left: 2.5rem;
+        padding-block: 1rem 2rem;
+        width: min(100%, 70rem);
+      }
+
+      h1 {
+        font-size: 18pt;
+        box-sizing: border-box;
+        word-wrap: break-word;
+        -webkit-font-smoothing: antialiased;
+        padding: 0;
+        cursor: pointer;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        font-weight: 500;
+        letter-spacing: 0;
+      }
+
+      h1::after {
+        content: '';
+        width: 25rem;
+        background-color: #e3e8ee;
+        height: 1px;
+        margin-top: 0.5rem;
+        position: relative;
+        top: 50%;
+        left: 1.5rem;
+        display: inline-block;
+      }
+
+      h2 {
+        font-size: 2.5rem;
+      }
+      h3 {
+        font-size: 2rem;
+      }
+      h4 {
+        font-size: 1.5rem;
+      }
+      h5 {
+        font-size: 1.2rem;
+      }
+      h6 {
+        font-size: 14px;
+        font-family: var(--sail-baseFont);
+        box-sizing: border-box;
+        word-wrap: break-word;
+        -webkit-font-smoothing: antialiased;
+        margin: 0;
+        padding: 0;
+        color: var(--gray800);
+        margin-top: var(--sp20);
+        padding-bottom: var(--sp12);
+        border-bottom: 1px solid var(--gray100);
+        font-size: var(--font16);
+        font-weight: 500;
+        width: 100%;
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        padding-block: 1rem;
+      }
+
+      section > span {
+        list-style: none;
+        box-sizing: border-box;
+        word-wrap: break-word;
+        -webkit-font-smoothing: antialiased;
+        font-weight: 600;
+        color: #5b617a;
+        font-size: 13px;
+        margin-right: var(--sp4);
+        font-family: 'Noto Sans Mono', monospace;
+        user-select: all;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>SINC-Geiger API Wiki</h1>
+    <section>
+      <h6>Letzten Sievert-Wert bekommen (Median der letzten 30 Minuten)</h6>
+      <span>api.sinc-geiger.de/<b>latest</b>/</span>
+    </section>
+    <section>
+      <h6>Sievert-Wert zu bestimmter Uhrzeit bekommen</h6>
+      <span>api.sinc-geiger.de/<b>&lt;unix timestamp&gt;</b>/</span>
+    </section>
+    <section>
+      <h6>Alle Sievert-Werte bekommen</h6>
+      <span>api.sinc-geiger.de/<b>all</b>/</span>
+    </section>
+    <section>
+      <h6><b>Alle Rückgabewerte werden als JSON formattiert.</b></h6>
+    </section>
+  </body>
+</html>
